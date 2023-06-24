@@ -1,63 +1,20 @@
 <template>
   <div class="home">
-    <div class="feature-card">
-      <router-link to="/movie/tt8009428">
-        <img src="https://occ-0-325-56.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABXeNN8_cypkk6d4kok8hvEvgvp11rgz_lSGqfsB2i3x1kPoviAKzwjnFY9wsrG38-I6m-X-3zLxrUt1Nu5iaxj0IqD37523CwGXIt2_pMXshAJRLoodEs9huXk_xj5EhduCyiw.jpg?r=b8f" alt="Arremessando Alto" class="featured-img" />
-        <div class="detail">
-          <h3>Arremessando Alto</h3>
-          <p>Um olheiro de basquete azarado encontra um jogador com potencial de sucesso e se esforça para provar que ambos merecem chegar à NBA.</p>
-        </div>
-      </router-link>
-    </div>
-
-    <form @submit.prevent="SearchMovies()" class="search-box">
-      <input type="text" placeholder="Qual filme você gostaria de locar?" v-model="search" />
-      <input type="submit" value="Buscar" />
-    </form>
-
-    <div class="movies-list">
-      <div class="movie" v-for="movie in movies" :key="movie.imdbID">
-        <router-link :to="'/movie/' + movie.imdbID" class="movie-link">
-          <div class="product-image">
-            <img :src="movie.Poster" alt="Movie Poster" />
-            <div class="type">{{ movie.Type }}</div>
-          </div>
-          <div class="detail">
-            <p class="year">{{ movie.Year }}</p>
-            <h3>{{ movie.Title }}</h3>
-          </div>
-        </router-link>
-      </div>
-    </div>
-  </div>
+    <CardComponent />
+    <MovieListComponent />
+ 
+ </div>
 </template>
 
 <script>
-import { ref } from 'vue';
-import env from '@/env.js'
+import CardComponent from '@/components/CardComponent.vue';
+import MovieListComponent from '@/components/MovieListComponent.vue';
 
 export default {
-  setup () {
-    const search = ref("");
-    const movies = ref([]);
-
-    const SearchMovies = () => {
-      if (search.value != "") {
-        fetch(`http://www.omdbapi.com/?apikey=${env.apikey}&s=${search.value}`)
-          .then(response => response.json())
-          .then(data => {
-            movies.value = data.Search;
-            search.value = "";
-          });
-      }
-    }
-
-    return {
-      search,
-      movies,
-      SearchMovies
-    }
-  }
+  components: {
+            CardComponent,
+            MovieListComponent
+        },
 }
 </script>
 
